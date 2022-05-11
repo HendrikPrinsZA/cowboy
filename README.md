@@ -1,5 +1,5 @@
-# npm
-Code like a cowboy (or cowgirl/cowx/etc)
+# Cowboy - Code like a cowboy
+Create solutions in any popular scripting language
 
 > :warning: This package is in **very early development**! DO NOT USE
 
