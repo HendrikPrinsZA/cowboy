@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 
-def getExtensions(path):
+def get_extensions(path):
   extensions = []
   module = path.split('/')[:-1][-1]
   for file in os.listdir(path):
@@ -16,23 +16,28 @@ def getExtensions(path):
   
   return extensions
 
-def printModules(title:str, path:str):
-  print(f"{title}")
+def print_modules(title:str, path:str):
+  path = os.path.realpath(path)
 
+  commands = []
   for dir in os.listdir(path):
     if dir.startswith('.'): continue
     if os.path.isfile(dir): continue
     
-    extensions = getExtensions(f"{path}/{dir}/")
+    extensions = get_extensions(f"{path}/{dir}/")
 
     # if no extensions found, assume incomplete and ignore
     if len(extensions) == 0: continue
 
-    print(f"- {dir} [{', '.join(extensions)}]")
+    commands.append(f"- {dir} [{', '.join(extensions)}]")
+  
+  print(f"{title}")
+  if len(commands) > 0:
+    print("\n".join(commands))
+  else:
+    print("- No commands found")
 
-pathModules = os.path.realpath(__file__).replace('/list/list.py', '/../')
-pathModulesCore = os.path.realpath(f"{pathModules}/core")
-pathModulesLocal = os.path.realpath(f"{pathModules}/local")
-
-printModules("\nCore", pathModulesCore)
-printModules("\nLocal", pathModulesLocal)
+MODULES_DIR = os.path.realpath(__file__).replace('/list/list.py', '/../')
+print_modules("\nCore", f"{MODULES_DIR}/core")
+print_modules("\nLocal", f"{MODULES_DIR}/local")
+print_modules("\nPublic", f"{MODULES_DIR}/public")

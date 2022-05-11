@@ -23,6 +23,7 @@ npm unlink cowboy
 - `cowboy list`: List all available commands
 - `cowboy open <command>`: Open the command in code editor
 - `cowboy new <command>`: Create a new command
+- `cowboy clone <public-repo-url>`: Clone a public repository
 - `cowboy fiddle.[js,php,py,sh]`: Sample fiddle based on language extension
 - `cowboy tinker [js,php,py,sh]`: Tinker based on the language extension
 

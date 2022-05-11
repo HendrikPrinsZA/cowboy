@@ -44,6 +44,13 @@ if [ -d $commandPath ]; then
   exit 0
 fi
 
+# Open modules/public/$command second
+commandPath="${MODULES_DIR}/public/${COMMAND}"
+if [ -d $commandPath ]; then
+  launchVsc $commandPath
+  exit 0
+fi
+
 # Open modules/core/$command second
 commandPath="${MODULES_DIR}/core/${COMMAND}"
 if [ -d $commandPath ]; then
