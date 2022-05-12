@@ -3,6 +3,13 @@ Create solutions in any popular scripting language
 
 > :warning: This package is in **very early development**! DO NOT USE
 
+## Current languages
+- Bash
+- PHP v8+
+- Python v3
+- JavaScript (NodeJS)
+- GoLang
+
 ## Getting started
 ### How to link/unlink
 Make the command global
