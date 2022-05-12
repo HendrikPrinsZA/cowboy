@@ -9,6 +9,7 @@ Create solutions in any popular scripting language
 - Python v3
 - JavaScript (NodeJS)
 - GoLang
+- Ruby
 
 ## Getting started
 ### How to link/unlink
