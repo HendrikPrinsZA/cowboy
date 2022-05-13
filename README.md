@@ -33,7 +33,7 @@ npm unlink cowboy
 - `cowboy open <command>`: Open the command in code editor
 - `cowboy new <command>`: Create a new command
 - `cowboy clone <public-repo-url>`: Clone a public repository
-- `cowboy fiddle(.[*])`: Sample fiddle based on language extension (optional)
+- `cowboy fiddle(.[all, *])`: Sample fiddle based on language extension (optional)
 - `cowboy tinker(.[py,sh])`: Tinker based on the language extension (optional)
 
 ## Notes
