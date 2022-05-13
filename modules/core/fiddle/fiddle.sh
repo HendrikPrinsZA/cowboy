@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-echo 'Hello from Bash'
+version=$BASH_VERSION
+printf "Bash (%s): Hello World!\n" $version

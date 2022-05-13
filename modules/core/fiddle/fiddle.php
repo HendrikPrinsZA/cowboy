@@ -1,3 +1,4 @@
 <?php 
 
-echo 'Hello from PHP';
+$version = phpversion();
+printf("PHP (%s): Hello World!", $version);
