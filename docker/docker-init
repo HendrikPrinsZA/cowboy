@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "- - - - - - - - - - - - - - - - - - -"
+echo " Cowboy v0.0.1 (Init)"
+echo "- - - - - - - - - - - - - - - - - - -"
+echo "whoami: $(whoami)"
+
+echo "- - - - - - - - - - - - - - - - - - -"
+echo " Aliases (loading...)"
+echo "- - - - - - - - - - - - - - - - - - -"
+cat ~/.bash_aliases
+source ~/.bash_aliases
+
+echo "- - - - - - - - - - - - - - - - - - -"
+echo " Aliases (not working!)"
+echo "- - - - - - - - - - - - - - - - - - -"
+echo "value of \$HOST_NAME = '$HOST_NAME'"
+echo "value of \$PYTHON_HTTP = '$PYTHON_HTTP'"
+echo "value of \$HTTP_PHP_HTTP = '$HTTP_PHP_HTTP'"
+echo "value of \$PYTHON_DB = '$PYTHON_DB'"
+
+echo "- - - - - - - - - - - - - - - - - - -"
+echo " Core languages"
+echo "- - - - - - - - - - - - - - - - - - -"
+echo "Node: $(node --version)"
+echo "NPM: $(npm --version)"
+echo "GoLang: $(go version)"
+echo "PHP: $(php --version)"
+echo "Python python: $(python --version), python3: $(python3 --version)"
+echo "Ruby: $(ruby --version)"
+
+echo "- - - - - - - - - - - - - - - - - - -"
+echo " Clone/Update the cowboy repo"
+echo "- - - - - - - - - - - - - - - - - - -"
+echo "Profile lnked as $(git config user.name)<$(git config user.email)>"
