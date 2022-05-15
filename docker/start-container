@@ -8,6 +8,9 @@ echo "whoami: $(whoami)"
 nginx -c /etc/nginx/nginx.conf
 nginx -s reload
 
+cd /root/cowboy 
+npm link
+
 if [ $# -gt 0 ]; then
   exec gosu $(whoami) "$@"
 else
