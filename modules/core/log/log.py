@@ -2,7 +2,6 @@
 
 import argparse
 from datetime import datetime
-from json import JSONDecoder
 import json
 import os
 import re
@@ -11,10 +10,12 @@ import base64
 LOGS_DIR = os.path.realpath(__file__.replace('/log.py', '/../../../storage/log'))
 
 HOSTNAME = os.getenv('HOSTNAME')
+
 if HOSTNAME is None:
-  HOSTNAME = os.getenv('USER')
+    HOSTNAME = os.getenv('USER')
+
 if HOSTNAME is None:
-  HOSTNAME = os.path.basename(os.getenv('HOME'))
+    HOSTNAME = os.path.basename(os.getenv('HOME'))
 
 def get_file_lines(filepath):
     lines = []
@@ -35,7 +36,6 @@ def read_file(filepath):
     lines = get_file_lines(filepath)
     for line in lines:
         print(line)
-
     print("\n```")
 
 def file_line_count(filepath):

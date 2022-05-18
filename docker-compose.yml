@@ -30,7 +30,7 @@ services:
       - cowboy-kali
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "cowboy", "ping" ]
+      test: [ "CMD", "cowboy", "ping", "--silent" ]
       retries: 3
       timeout: 5s
 

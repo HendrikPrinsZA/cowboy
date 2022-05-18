@@ -10,9 +10,6 @@ done
 SCRIPT_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 MODULES_DIR=$( cd -P "$( dirname "$SOURCE" )/../.." >/dev/null 2>&1 && pwd )
 
-# Log silently
-$(cowboy log --log-name core-open $@)
-
 launchVsc () {
   local path=$1
   
