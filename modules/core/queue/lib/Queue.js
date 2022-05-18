@@ -1,5 +1,5 @@
 /*
-The Rifle
+The Queue
 
 We need to be able trigger commands from within the container to the client.
 
@@ -25,9 +25,9 @@ Example of to-be:
 
 #### Examples of usage
 
-1. Command line (direct via ./rifle.js)
+1. Command line (direct via ./queue.js)
 ```sh
-./rifle.js add-clip 'echo "Example one"'
+./queue.js add-clip 'echo "Example one"'
 ````
 
 2. Node
@@ -37,15 +37,32 @@ Example of to-be:
 
 */
 
-class Queue {
-  // (i) If we need to group commands (might become applicable, not yet)
-  // addClip() { }
+module.exports = class Queue {
+  constructor(name) {
+    this.name = name;
+  }
 
-  append() {
-    const { argv, argv0 } = process;
-    const cleanArgs = argv.slice(2);
+  append(message) {
 
+    // Get the current value
+    console.log({
+      fn: 'Queue.append',
+      name: this.name,
+      message: message,
+    });
   }
 }
 
-module.exports = Queue;
+// class Queue {
+//   // (i) If we need to group commands (might become applicable, not yet)
+//   // addClip() { }
+
+//   append() {
+//     const { argv, argv0 } = process;
+//     const cleanArgs = argv.slice(2);
+  
+
+//   }
+// }
+
+// module.exports = Queue;
