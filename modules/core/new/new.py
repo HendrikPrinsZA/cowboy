@@ -82,6 +82,5 @@ if not os.path.isfile(commandPath):
     f.close()
 
     os.chmod(commandPath, stat.S_IRWXU)
-
-    cowboy = f"cowboy open {command}"
-    os.system(cowboy)
+    
+    os.system(f"cowboy rifle open {command}")

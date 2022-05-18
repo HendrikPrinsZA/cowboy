@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 # - ref: https://stackoverflow.com/a/246128/7403334
 SOURCE=${BASH_SOURCE[0]}
@@ -10,6 +9,9 @@ while [ -h "$SOURCE" ]; do
 done
 SCRIPT_DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 MODULES_DIR=$( cd -P "$( dirname "$SOURCE" )/../.." >/dev/null 2>&1 && pwd )
+
+# Log silently
+$(cowboy log --log-name core-open $@)
 
 launchVsc () {
   local path=$1
@@ -25,7 +27,7 @@ launchVsc () {
     if ! command -v $cmd &> /dev/null
     then
       # verbose
-      # echo "${cmd} could not be found"
+      echo "${cmd} could not be found"
       continue
     fi
 
@@ -36,8 +38,10 @@ launchVsc () {
   done
 }
 
-# Open modules/local/$command first
+# Argument 1 is expected as the command (not req)
 COMMAND=$1
+
+# Open modules/local/$command first
 commandPath="${MODULES_DIR}/local/${COMMAND}"
 if [ -d $commandPath ]; then
   launchVsc $commandPath
@@ -57,6 +61,3 @@ if [ -d $commandPath ]; then
   launchVsc $commandPath
   exit 0
 fi
-
-# Fall back to create command 
-cowboy new $COMMAND

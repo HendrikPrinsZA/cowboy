@@ -7,5 +7,5 @@ import (
 
 func main() {
 	var version = runtime.Version()
-	fmt.Printf("GoLang (%s): Hello World!", version)
+	fmt.Printf("GoLang (%s): Hello World!\n", version)
 }
