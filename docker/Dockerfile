@@ -38,7 +38,7 @@ RUN apt update && apt-get install -y curl \
   && apt-get clean
 
 # Support / PHP
-RUN apt update && apt-get install -y php-cli php-dev \
+RUN apt update && apt-get install -y php-cli php-fpm php-dev \
     php-pgsql php-sqlite3 php-gd \
     php-curl php-memcached \
     php-imap php-mysql php-mbstring \
