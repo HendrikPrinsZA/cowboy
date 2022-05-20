@@ -24,7 +24,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt update && apt -y upgrade && apt -y autoremove && apt clean 
 
 # Base
-RUN apt install -y git gosu supervisor
+RUN apt install -y --no-install-recommends git gosu supervisor ca-certificates gcc libc6-dev wget
 
 # Support / GoLang
 RUN apt update && apt-get install -y golang-go
@@ -54,10 +54,14 @@ RUN apt update && apt-get install -y python3-setuptools \
 # Support / Ruby
 RUN apt update && apt-get install -y ruby-full
 
-# Support / NGinX
+# Support / Nginx
 RUN apt update && apt-get install -y nginx openssl
 
-RUN echo "=== CHECK THIS | HOST_NAME: ${HOST_NAME} ==="
+# Support / Rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+  echo 'source $HOME/.cargo/env' >> $HOME/.bashrc && \
+  PATH="$HOME/.cargo/bin:${PATH}" && \
+  cargo install cargo-script
 
 RUN mkdir -p /etc/ssl/certs
 RUN chmod 755 /etc/ssl/certs
@@ -100,30 +104,29 @@ RUN apt update && apt-get install -y aircrack-ng \
 
 RUN apt-get autoremove -y && apt-get autoclean -y && rm -rf /var/lib/apt/lists/*
 
-# Aliases ENV
+# Alias ENV
 RUN echo "alias APP_NAME='$APP_NAME'" >> /root/.bash_aliases
 
-# Alias (commands)
+# Alias (HACKS)
 RUN echo '#!/bin/bash\npython3 "$@"' > /usr/bin/python && \
   chmod +x /usr/bin/python
 
-# Aliases don't work!
-RUN echo 'alias HOST_NAME="$HOST_NAME"' >> ~/.bash_aliases
-RUN echo "alias PYTHON_HTTP='python3 -m http.server $PYTHON_HTTP_PORT'" >> ~/.bash_aliases
-RUN echo "alias HTTP_PHP_HTTP='php -S 127.0.0.1:$PYTHON_HTTP_PORT -t .'" >> ~/.bash_aliases
-RUN echo "alias PYTHON_DB='python3 -m pyftpdlib -u \"$PYTHON_DB_USER\" -P \"$PYTHON_DB_PASS\" -p $PYTHON_DB_PORT'" >> ~/.bash_aliases
-RUN echo 'alias PYTHON_HTTP_PORT="$PYTHON_HTTP_PORT"' >> ~/.bash_aliases
-RUN echo 'alias NGINX_HTTP_PORT="$NGINX_HTTP_PORT"' >> ~/.bash_aliases
-RUN echo 'alias NGINX_HTTPS_PORT="$PYTHON_HTTP_PORT"' >> ~/.bash_aliases
+# Aliases (not sure about these...)
+RUN echo 'alias HOSTNAME="$HOSTNAME"' >> /root/.bash_aliases
+RUN echo "alias PYTHON_HTTP='python3 -m http.server $PYTHON_HTTP_PORT'" >> /root/.bash_aliases
+RUN echo "alias HTTP_PHP_HTTP='php -S 127.0.0.1:$PYTHON_HTTP_PORT -t .'" >> /root/.bash_aliases
+RUN echo "alias PYTHON_DB='python3 -m pyftpdlib -u \"$PYTHON_DB_USER\" -P \"$PYTHON_DB_PASS\" -p $PYTHON_DB_PORT'" >> /root/.bash_aliases
+RUN echo 'alias PYTHON_HTTP_PORT="$PYTHON_HTTP_PORT"' >> /root/.bash_aliases
+RUN echo 'alias NGINX_HTTP_PORT="$NGINX_HTTP_PORT"' >> /root/.bash_aliases
+RUN echo 'alias NGINX_HTTPS_PORT="$PYTHON_HTTP_PORT"' >> /root/.bash_aliases
 
 # Set working directory to /root
 RUN mkdir -p /root/cowboy
+WORKDIR /root/cowboy
 
 EXPOSE $PYTHON_HTTP_PORT
 EXPOSE $NGINX_HTTP_PORT
 EXPOSE $NGINX_HTTPS_PORT
-
-WORKDIR /root
 
 # Configs
 COPY nginx/cowboy.conf /etc/nginx/conf.d/cowboy.conf

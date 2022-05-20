@@ -5,12 +5,12 @@ Create solutions in any popular scripting language
 
 ## Current languages
 - `.go`: GoLang
-- `.js`: JavaScript (NodeJS)
+- `.js|ts`: JavaScript/TypeScript (NodeJS)
 - `.php`: PHP
 - `.py`: Python
 - `.rb`: Ruby
+- `.rs`: Rust
 - `.sh`: Bash
-- `.ts`: TypeScript (NodeJS)
 
 ## Getting started
 ### How to link/unlink

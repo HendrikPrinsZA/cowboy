@@ -8,13 +8,12 @@ echo "whoami: $(whoami)"
 echo "- - - - - - - - - - - - - - - - - - -"
 echo " Aliases (loading...)"
 echo "- - - - - - - - - - - - - - - - - - -"
-cat ~/.bash_aliases
 source ~/.bash_aliases
 
 echo "- - - - - - - - - - - - - - - - - - -"
 echo " Aliases (not working!)"
 echo "- - - - - - - - - - - - - - - - - - -"
-echo "value of \$HOST_NAME = '$HOST_NAME'"
+echo "value of \$HOSTNAME = '$HOSTNAME'"
 echo "value of \$PYTHON_HTTP = '$PYTHON_HTTP'"
 echo "value of \$HTTP_PHP_HTTP = '$HTTP_PHP_HTTP'"
 echo "value of \$PYTHON_DB = '$PYTHON_DB'"
@@ -33,3 +32,4 @@ echo "- - - - - - - - - - - - - - - - - - -"
 echo " Clone/Update the cowboy repo"
 echo "- - - - - - - - - - - - - - - - - - -"
 echo "Profile lnked as $(git config user.name)<$(git config user.email)>"
+

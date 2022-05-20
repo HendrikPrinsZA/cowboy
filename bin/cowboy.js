@@ -15,7 +15,7 @@ program
     const responses = myCowboy.run(command);
 
     if (responses.length > 0) {
-      myCowboy.commandLog(command, responses)
+      myCowboy.commandLogMessage(command, responses)
     }
   });
 

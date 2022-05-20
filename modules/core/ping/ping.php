@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
@@ -9,4 +10,4 @@ echo json_encode([
   'message' => 'Pong from PHP',
   'hostname' => $hostname,
   'now' => date('Y-m-d H:i:s')
-])."\n";
+]);
