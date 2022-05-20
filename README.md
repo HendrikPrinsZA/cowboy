@@ -12,6 +12,20 @@ Create solutions in any popular scripting language
 - `.rs`: Rust
 - `.sh`: Bash
 
+## Sample fiddles
+```sh
+┌──(root㉿cowboy)-[~/cowboy]
+└─# cowboy fiddle.all
+GoLang (go1.18.1): Hello World!
+Node (v16.15.0): Hello World!
+PHP (8.1.2): Hello World!
+Python (v3.10.4): Hello World!
+Ruby (3.0.3): Hello World!
+Rust (v0.1.0): Hello World!
+Bash (5.1.16(1)-release): Hello World!
+Node (v16.15.0): Hello World!
+```
+
 ## Getting started
 ### How to link/unlink
 Make the command global
