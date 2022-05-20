@@ -1,24 +1,27 @@
 # Cowboy API
+Simple API interface for the Cowboy package
 
-## Project setup
+## Current functionality
+- Directory browser that watches the current context
+
+## Roadmap
+- Integrate with main package (auto build and serve)
+- Show readme if available
+- Indicate technology type of modules
+- Limited interaction with modules
+
+## Getting started
+1. Install dependencies
 ```
-npm install
+npm i
 ```
 
-### Compiles and hot-reloads for development
+2. Serve the frontend
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+3. Serve the backend
 ```
-npm run build
+node index.mjs
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -25,29 +25,22 @@ function ltrim(str, chr) {
 }
 
 class Api {
-  
   constructor() {
-    console.log('Initialized Api');
-
-    // Paths 
+    this.port = 3000;
     this.dirname = path.dirname(__filename);
     this.basepath = path.resolve(`${this.dirname}/../../../..`);
-
-    // Configs
-    this.port = 3000;
-    this.skip = {};
   }
 
   start() {
-    // Create
     this.app = express();
     this.server = http.createServer(this.app).listen(this.port);
     this.expressWs = expressWs(this.app, this.server);
 
-    // Instantiate
     this.routes();
     this.views();
     this.sockets();
+
+    console.log('Waiting for messages...');
   }
 
   routes() {
@@ -61,6 +54,30 @@ class Api {
     this.app.use(express.static(this.dirname + '/views'));
   }
 
+  sockets() {
+    const me = this;
+    
+    // Shows the current log directories
+    // - To-do: Authentication middleware on the req object (2nd param)?
+    this.app.ws('/ws', async function(ws) {
+      ws.on('message', async (message) => {
+        message = me.parseMessage(message);
+        
+        console.log(`Recieved a message:`);
+        console.log(message);
+        
+        if (message === null) {
+          me.error(ws, `Unable to parse the message: ${message}`);
+        }
+
+        const action = message.action ?? null;
+        if (action === 'watch') {
+          return me.watch(ws, message);
+        }
+      });
+    });
+  }
+
   respond(wsHandler, response) {
     if (typeof response === 'string') {
       response = {
@@ -72,76 +89,12 @@ class Api {
       response.success = true;
     }
 
+    console.log('Sending a message');
+    console.log(response);
+
     return wsHandler.send(JSON.stringify(response));
   }
 
-  error(wsHandler, message) {
-    return this.respond(wsHandler, {
-      success: false,
-      message: message
-    });
-  }
-
-  asbPathToRelPath(asbPath) {
-    return trim(asbPath.replace(this.basepath, ''), '/');
-  }
-
-  parseMessage(message) {
-    const type = typeof message;
-    if (type !== 'string') {
-      console.error(`Unexpected message type of ${type}: '${message}'`);
-      return false;
-    }
-
-    try {
-      return JSON.parse(message);
-    } catch (error) {
-      console.error(`Unable to parse message to JSON: '${message}'`);
-      return false;
-    }
-  }
-
-  getDirectories(targetPath) {
-    const logDirs = [];
-    const targetPathAbs = `${this.basepath}/${targetPath}`;
-    const dirPaths = fs.readdirSync(targetPathAbs);
-
-    for (const dirPath of dirPaths) {
-      const dirPathAbs = `${targetPathAbs}/${dirPath}`;
-
-      if (dirPath.startsWith('.') || dirPath.includes('.')) {
-        continue;
-      }
-
-      if (!fs.lstatSync(dirPathAbs).isDirectory()) {
-        continue;
-      }
-
-      logDirs.push({
-        name: path.basename(dirPathAbs),
-        path: this.asbPathToRelPath(dirPathAbs),
-        files: []
-      });
-
-      // const filePaths = fs.readdirSync(dirPathAbs);
-      // for (const filePath of filePaths) {
-      //   console.log({
-      //     filePath: filePath
-      //   });
-
-      //   if (filePath.startsWith('.') || !filePath.includes('.')) {
-      //     continue;
-      //   }
-        
-      //   logDir.files.push({
-      //     name: path.basename(filePath),
-      //     path: filePath
-      //   });
-      // }
-    }
-
-    return logDirs;
-  }
 
   watch(wsHandler, message) {
     const me = this;
@@ -176,7 +129,6 @@ class Api {
 
   watchPath(wsHandler, targetPath) {
     const me = this;
-    const skipKey = `Listening on ${targetPath}`;
     const targetPathRel = me.asbPathToRelPath(targetPath)
 
     me.respond(wsHandler, `Listening on path: ${targetPathRel}`);
@@ -185,22 +137,15 @@ class Api {
       directories: me.getDirectories(targetPathRel),
       path: targetPathRel,
     });
-    me.skip[skipKey] = true;
 
-    // Clear after first 1sec
-    setTimeout(() => {
-      me.skip[skipKey] = false;
-    }, 1000);
-
-    // chokidar.watch(targetPath).on('all', (event, path) => {
     chokidar.watch(targetPath, {
       ignoreInitial: true,
       ignored: [
         '**/cowboy/modules/core/api/**',
         '**/node_modules/**',
         '**/vendor/**',
-        '*.cache',
-        '.DS_STORE',
+        '*.git*',
+        /(^|[/\\])\../, // ignore all dotfiles
       ],
       followSymlinks: false,
       depth: 10,
@@ -209,39 +154,70 @@ class Api {
         pollInterval: 100
       },
     }).on('all', (event, path) => {
-      if (me.skip[skipKey]) {
-        return;
-      }
-      
       me.respond(wsHandler, { 
         debug: true, 
         directories: me.getDirectories(targetPathRel),
         path: targetPathRel,
       });
-      me.respond(wsHandler, { event: event, path: path });
+      me.respond(wsHandler, { 
+        event: event, 
+        path: me.asbPathToRelPath(path) 
+      });
     });
   }
 
-  sockets() {
-    const me = this;
-    
-    // Shows the current log directories
-    // - To-do: Authentication middleware on the req object (2nd param)?
-    this.app.ws('/ws', async function(ws) {
+  getDirectories(targetPath) {
+    const logDirs = [];
+    const targetPathAbs = `${this.basepath}/${targetPath}`;
+    const dirPaths = fs.readdirSync(targetPathAbs);
 
-      ws.on('message', async (message) => {
-        message = me.parseMessage(message);        
-        if (message === null) {
-          me.error(ws, `Unable to parse the message: ${message}`);
-        }
+    for (const dirPath of dirPaths) {
+      const dirPathAbs = `${targetPathAbs}/${dirPath}`;
 
-        const action = message.action ?? null;
-        if (action === 'watch') {
-          return me.watch(ws, message);
-        }
+      if (dirPath.startsWith('.') || dirPath.includes('.')) {
+        continue;
+      }
+
+      if (!fs.lstatSync(dirPathAbs).isDirectory()) {
+        continue;
+      }
+
+      // To-do: Add files
+      // - type: 'file' || 'directory'
+      logDirs.push({
+        name: path.basename(dirPathAbs),
+        path: this.asbPathToRelPath(dirPathAbs),
+        files: []
       });
-    });
+    }
 
+    return logDirs;
+  }
+
+  error(wsHandler, message) {
+    return this.respond(wsHandler, {
+      success: false,
+      message: message
+    });
+  }
+
+  asbPathToRelPath(asbPath) {
+    return trim(asbPath.replace(this.basepath, ''), '/');
+  }
+
+  parseMessage(message) {
+    const type = typeof message;
+    if (type !== 'string') {
+      console.error(`Unexpected message type of ${type}: '${message}'`);
+      return false;
+    }
+
+    try {
+      return JSON.parse(message);
+    } catch (error) {
+      console.error(`Unable to parse message to JSON: '${message}'`);
+      return false;
+    }
   }
 }
 

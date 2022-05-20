@@ -1,12 +1,10 @@
 <template>
     <div v-if="isConnected">
-        <h1>Directories ({{path}})</h1>
-        <p>
-            Path:
+        <h3>Path:
             <a href="#" class="breadcrumb" v-for="breadcrumb in breadcrumbs" :key="breadcrumb.path" @click="navigate(breadcrumb)">
                 {{ breadcrumb.name }}
             </a>
-        </p>
+        </h3>
         <ul>
             <li v-for="directory in directories" :key="directory.name" >
                 <a href="#" @click="navigate(directory)">{{ directory.name }}</a>
@@ -35,7 +33,6 @@ export default {
         return {
             socket: null,
             isConnected: false,
-            // path: 'storage/log',
             path: '',
             logs: [],
             directories: []
@@ -61,11 +58,10 @@ export default {
     },
 
     async mounted() {
-        this.listen();
+        await this.listen();
     },
 
     methods: {
-
         appendLog(type, data) {
             this.logs.unshift({
                 type: type,
@@ -159,27 +155,3 @@ export default {
 }
 
 </script>
-
-<style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-
-.debug-panel {
-    position: fixed;
-    overflow-x: scroll;
-    top: 0px;
-    bottom: 0px;
-    width: 500px;
-    height: 100%;
-    right: 0px;
-}
-
-/* .breadcrumb {
-    cursor: pointer;
-} */
-
-/* .breadcrumb:after {
-    content: "/";
-} */
-</style>
