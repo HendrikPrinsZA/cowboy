@@ -3,7 +3,7 @@ Create solutions in any popular scripting language
 
 > :warning: This package is in **very early development**! DO NOT USE
 
-## Current languages
+## Current support
 - `.go`: GoLang
 - `.js|ts`: JavaScript/TypeScript (NodeJS)
 - `.php`: PHP
@@ -12,7 +12,7 @@ Create solutions in any popular scripting language
 - `.rs`: Rust
 - `.sh`: Bash
 
-## Sample fiddles
+### Sample fiddles
 ```sh
 ┌──(root㉿cowboy)-[~/cowboy]
 └─# cowboy fiddle.all
