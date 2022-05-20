@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
-console.log('Hello from NodeJS');
+const version = process.version;
+console.log(`Node (${version}): Hello World!`);

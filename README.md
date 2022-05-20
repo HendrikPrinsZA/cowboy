@@ -4,12 +4,13 @@ Create solutions in any popular scripting language
 > :warning: This package is in **very early development**! DO NOT USE
 
 ## Current languages
-- Bash
-- PHP v8+
-- Python v3
-- JavaScript (NodeJS)
-- GoLang
-- Ruby
+- `.go`: GoLang
+- `.js|ts`: JavaScript/TypeScript (NodeJS)
+- `.php`: PHP
+- `.py`: Python
+- `.rb`: Ruby
+- `.rs`: Rust
+- `.sh`: Bash
 
 ## Getting started
 ### How to link/unlink
@@ -32,8 +33,8 @@ npm unlink cowboy
 - `cowboy open <command>`: Open the command in code editor
 - `cowboy new <command>`: Create a new command
 - `cowboy clone <public-repo-url>`: Clone a public repository
-- `cowboy fiddle.[js,php,py,sh]`: Sample fiddle based on language extension
-- `cowboy tinker [js,php,py,sh]`: Tinker based on the language extension
+- `cowboy fiddle(.[all, *])`: Sample fiddle based on language extension (optional)
+- `cowboy tinker(.[py,sh])`: Tinker based on the language extension (optional)
 
 ## Notes
 Some rought notes while shaping the project

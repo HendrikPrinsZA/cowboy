@@ -1,7 +1,12 @@
+//usr/bin/go run $0 $@; exit $?
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 func main() {
-	fmt.Println("Hello from GoLang")
+	var version = runtime.Version()
+	fmt.Printf("GoLang (%s): Hello World!\n", version)
 }

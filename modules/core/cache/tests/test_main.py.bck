@@ -1,0 +1,28 @@
+import os
+import random
+import unittest
+from datetime import datetime
+from os import path
+
+from lib.cache import Cache
+
+class TestMain(unittest.TestCase):
+    MAX_MS = 1000000
+    PATH_DIR = path.abspath(f"{path.dirname(__file__)}/../tests/__pycache__")
+    PATH_CACHE = f"{PATH_DIR}/test_cache.json"
+
+    def __init__(self, methodName):
+        super().__init__(methodName)
+
+        self.cache = Cache(self.PATH_CACHE)
+        self.cache.clear()
+
+    def exec(self, command):
+        return os.system(f"../main.py key1 value1")    
+    
+    def test_create(self):
+        response = self.exec('key1 value1')
+        self.assertFalse(True, response)
+
+if __name__ == '__main__':
+    unittest.main()

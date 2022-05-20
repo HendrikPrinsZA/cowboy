@@ -3,16 +3,20 @@
 const program = require('commander');
 const Cowboy = require('../lib/Cowboy');
 
-const myCowboy = new Cowboy();
-
 program
   .option('-v, --verbose', 'output debug information')
+  .option('-s, --silent', 'run silently')
   .allowUnknownOption();
 
 program
   .addArgument(new program.Argument('[command]', 'command to run').default('cowboy'))
   .action((command) => {
-    myCowboy.run(command);
+    const myCowboy = new Cowboy(program.opts());
+    const responses = myCowboy.run(command);
+
+    if (responses.length > 0) {
+      myCowboy.commandLogMessage(command, responses)
+    }
   });
 
 program.parse(process.argv);
