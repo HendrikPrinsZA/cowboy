@@ -16,17 +16,23 @@ Create solutions in any popular scripting language
 ```sh
 ┌──(root㉿cowboy)-[~/cowboy]
 └─# cowboy fiddle.all
-GoLang (go1.18.1): Hello World!
-Node (v16.15.0): Hello World!
-PHP (8.1.2): Hello World!
+GoLang (go1.18.2): Hello World!
+Node (v18.2.0): Hello World!
+PHP (8.1.5): Hello World!
 Python (v3.10.4): Hello World!
 Ruby (3.0.3): Hello World!
 Rust (v0.1.0): Hello World!
 Bash (5.1.16(1)-release): Hello World!
-Node (v16.15.0): Hello World!
+Node (v18.2.0): Hello World!
 ```
 
 ## Getting started
+
+## Launch docker environment
+```
+./restart.sh
+```
+
 ### How to link/unlink
 Make the command global
 
@@ -57,7 +63,7 @@ Some rought notes while shaping the project
 Simple NPM package to create solutions with different programming languages
 
 ### Roadmap
-- Dockerize
+- Dockerize (partially implemented)
 - Protect against potential vulnerabilities
 - Add tests for core modules
 - ...
@@ -66,4 +72,5 @@ Simple NPM package to create solutions with different programming languages
 - Git integration: Enable easy integration with open source git repos. For example) `cowboy clone git@github.com:org/repo.git`
 - Cross-platform OS support, consider core overrides per OS
 - Convert core/local packages to pull requests for main repo. For example) `cowboy publish <command>`
+- Integration with https://github.com/charmbracelet/charm
 - ...

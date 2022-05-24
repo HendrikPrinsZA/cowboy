@@ -11,7 +11,7 @@ ENV PYTHON_DB_PASS $PYTHON_DB_PASS
 ENV PYTHON_DB_PORT $PYTHON_DB_PORT
 
 # Environmental variables (optional)
-ENV NODE_VERSION 16
+ENV NODE_VERSION 18
 
 # Environmental variables (Dockerfile)
 ENV DEBIAN_FRONTEND noninteractive
@@ -58,10 +58,13 @@ RUN apt update && apt-get install -y ruby-full
 RUN apt update && apt-get install -y nginx openssl
 
 # Support / Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
-  echo 'source $HOME/.cargo/env' >> $HOME/.bashrc && \
-  PATH="$HOME/.cargo/bin:${PATH}" && \
-  cargo install cargo-script
+RUN mkdir -m777 /opt/rust /opt/cargo
+ENV RUSTUP_HOME=/opt/rust CARGO_HOME=/opt/cargo PATH=/opt/cargo/bin:$PATH
+RUN wget --https-only --secure-protocol=TLSv1_2 -O- https://sh.rustup.rs | sh /dev/stdin -y
+RUN rustup target add x86_64-unknown-freebsd
+RUN printf '#!/bin/sh\nexport CARGO_HOME=/opt/cargo\nexec /bin/sh "$@"\n' >/usr/local/bin/sh
+RUN chmod +x /usr/local/bin/sh
+RUN cargo install cargo-script
 
 RUN mkdir -p /etc/ssl/certs
 RUN chmod 755 /etc/ssl/certs

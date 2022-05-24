@@ -11,4 +11,3 @@ version = '.'.join([
 ])
 
 print(f"Python (v{version}): Hello World!")
-

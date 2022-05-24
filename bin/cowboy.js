@@ -13,9 +13,8 @@ program
   .action((command) => {
     const myCowboy = new Cowboy(program.opts());
     const responses = myCowboy.run(command);
-
-    if (responses.length > 0) {
-      myCowboy.commandLogMessage(command, responses)
+    if (responses && responses.length > 0) {
+      myCowboy.logMessage(responses);
     }
   });
 

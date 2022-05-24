@@ -1,0 +1,15 @@
+{
+  "diff": true,
+  "extension": ["js", "cjs", "mjs"],
+  "package": "./package.json",
+  "reporter": "spec",
+  "slow": "75",
+  "timeout": "2000",
+  "ui": "bdd",
+  "spec": "test/**/*.test.js",
+  "watch-files": [
+    "test/**/*.test.js",
+    "lib/**/*.js"
+  ],
+  "watch-ignore": ["lib/vendor"]
+}

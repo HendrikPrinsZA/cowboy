@@ -74,8 +74,6 @@ def json_decode_safe(original):
         print(f"Error: Failed to decode at 1, raw value was: {original}")
         exit(1)
 
-    return False
-
 parser = argparse.ArgumentParser(
     description = "Cowboy logger",
     formatter_class = argparse.ArgumentDefaultsHelpFormatter
@@ -83,9 +81,23 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument(
     "--log-name",
-    help = "The name of the logfile, defaults to 'cowboy'", 
+    help = "The name of the log directory, defaults to 'cowboy'", 
     type = str,
     default = "cowboy",
+)
+
+parser.add_argument(
+    "--log-type",
+    help = "The type, defaults to 'message'", 
+    type = str,
+    default = 'message'
+)
+
+parser.add_argument(
+    "--log-message",
+    help = "The message to append, defaults to None", 
+    type = str,
+    default = None,
 )
 
 parser.add_argument(
@@ -96,15 +108,15 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--log-response-json",
-    help = "The response in JSON format", 
+    "--log-data-json",
+    help = "The data in JSON format", 
     type = str,
     default = None
 )
 
 parser.add_argument(
-    "--log-response-base64",
-    help = "The response in Base64 format", 
+    "--log-data-base64",
+    help = "The data in Base64 format", 
     type = str,
     default = None
 )
@@ -126,39 +138,39 @@ if len(message) == 0:
     exit(0)
 
 LOG_UNIQ = datetime.now().strftime("%Y-%m-%d")
-LOG_NAME = re.sub("[^0-9a-zA-Z]+", "", args.log_name)
+LOG_NAME = args.log_name
+LOG_TYPE = args.log_type
 LOG_DIR = f"{LOGS_DIR}/{LOG_NAME}"
-LOG_PATH = f"{LOG_DIR}/{LOG_UNIQ}.log"
-
 if not os.path.isdir(LOG_DIR):
     os.mkdir(LOG_DIR)
 
+LOG_PATH = f"{LOG_DIR}/{LOG_TYPE}.log"
 DATE_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 line = f"[{DATE_TIME}] {args.log_hostname} ({args.log_name}): {message}"
+
 append_line(LOG_PATH, line)
 
-# Parse JSON
-if args.log_response_json is not None:
-    decoded = json_decode_safe(args.log_response_json)
-    pretty = json.dumps(decoded, indent = 2)
-    with open(LOG_PATH, 'a') as f:
-        f.write(f"```\n{pretty}\n```\n")
-        f.close()
+appendLines = []
 
-    if int(args.log_verbosity) > 0:
-        print(pretty)
+# Parse Message
+if args.log_message is not None:
+    message = args.log_message
+    appendLines.append(f"Message: {message}")
 
 # Parse Base64
-if args.log_response_base64 is not None:
-    decoded = base64.b64decode(args.log_response_base64).decode('utf8')
+if args.log_data_base64 is not None:
+    decoded = base64.b64decode(args.log_data_base64).decode('utf8')
     decoded = json.loads(decoded)
     pretty = json.dumps(decoded, indent = 2)
-
+    appendLines.append(f"Data: {pretty}")
+    
+if len(appendLines) > 0:
+    body = "\n".join(appendLines)
+    body = f"```\n{body}\n```\n"
     with open(LOG_PATH, 'a') as f:
-        f.write(f"```\n{pretty}\n```\n")
+        f.write(body)
         f.close()
 
     if int(args.log_verbosity) > 0:
-        print(pretty)
-    
+        print(body)
