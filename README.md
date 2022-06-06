@@ -1,5 +1,5 @@
 # Cowboy - Code like a cowboy
-Create solutions in any popular scripting language
+Simple NPM package to create code snippets in different languages
 
 > :warning: This package is in **very early development**! DO NOT USE
 
@@ -57,10 +57,7 @@ npm unlink cowboy
 - `cowboy tinker(.[py,sh])`: Tinker based on the language extension (optional)
 
 ## Notes
-Some rought notes while shaping the project
-
-### Elevator pitch
-Simple NPM package to create solutions with different programming languages
+Some rough notes while shaping the project
 
 ### Roadmap
 - Dockerize (partially implemented)
