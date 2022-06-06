@@ -6,6 +6,7 @@ const Cowboy = require('../lib/Cowboy');
 program
   .option('-v, --verbose', 'output debug information')
   .option('-s, --silent', 'run silently')
+  .option('--pool-id <string>', 'unique id for pooling')
   .option('--benchmark', 'runs in benchmark mode')
   .allowUnknownOption();
 
