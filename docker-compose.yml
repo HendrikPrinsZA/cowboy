@@ -13,19 +13,16 @@ services:
       - ~/.git:/root/.git
       - ./docker/nginx:/etc/nginx/conf.d
     ports:
-      - "${PYTHON_HTTP_PORT:-8000}:8000"
-      - "${PYTHON_DB_PORT:-2121}:2121"
-      - "${NGINX_HTTP_PORT:-80}:80"
-      - "${NGINX_HTTPS_PORT:-443}:443"
+      - "${NGINX_HTTP_PORT:-1946}:80"
     environment:
       HOSTNAME: ${HOSTNAME:-cowboy.local}
-      APP_NAME: ${APP_NAME:-cowboy-kali}
-      PYTHON_HTTP_PORT: ${PYTHON_HTTP_PORT:-8000}
-      PYTHON_DB_USER: ${PYTHON_DB_USER:-cowboy}
+      APP_NAME: cowboy-kali
+      PYTHON_DB_USER: cowboy
       PYTHON_DB_PASS: ${PYTHON_DB_PASS}
-      PYTHON_DB_PORT: ${PYTHON_DB_PORT:-2121}
-      NGINX_HTTP_PORT: ${NGINX_HTTP_PORT:-80}
-      NGINX_HTTPS_PORT: ${NGINX_HTTPS_PORT:-443}
+      PYTHON_DB_PORT: 2121
+      PYTHON_HTTP_PORT: 8000
+      NGINX_HTTPS_PORT: 443
+      NGINX_HTTP_PORT: ${NGINX_HTTP_PORT:-1946}
     networks:
       - cowboy-kali
     restart: unless-stopped

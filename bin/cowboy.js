@@ -6,15 +6,16 @@ const Cowboy = require('../lib/Cowboy');
 program
   .option('-v, --verbose', 'output debug information')
   .option('-s, --silent', 'run silently')
+  .option('--benchmark', 'runs in benchmark mode')
   .allowUnknownOption();
 
 program
   .addArgument(new program.Argument('[command]', 'command to run').default('cowboy'))
   .action((command) => {
-    const myCowboy = new Cowboy(program.opts());
-    const responses = myCowboy.run(command);
+    const cowboy = new Cowboy(program.opts());
+    const responses = cowboy.run(command);
     if (responses && responses.length > 0) {
-      myCowboy.logMessage(responses);
+      cowboy.logMessage(responses);
     }
   });
 

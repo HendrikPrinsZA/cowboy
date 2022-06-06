@@ -8,16 +8,15 @@ from lib.cache import Cache
 """
 Generic class allowing for simple local file cache
 
-Example usage via CLI basic key value
+Set value
 ```
-./cache.py key1 'Value of key 1'
-```
-
-Example usage via CLI json
-```
-./cache.py "{'key1': 'Value of key 1'}"
+./cache.py "key" "value" 
 ```
 
+Get value
+```
+./cache.py "key"
+```
 """
 
 # Constats

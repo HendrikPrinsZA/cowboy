@@ -127,9 +127,7 @@ RUN echo 'alias NGINX_HTTPS_PORT="$PYTHON_HTTP_PORT"' >> /root/.bash_aliases
 RUN mkdir -p /root/cowboy
 WORKDIR /root/cowboy
 
-EXPOSE $PYTHON_HTTP_PORT
 EXPOSE $NGINX_HTTP_PORT
-EXPOSE $NGINX_HTTPS_PORT
 
 # Configs
 COPY nginx/cowboy.conf /etc/nginx/conf.d/cowboy.conf
