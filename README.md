@@ -1,4 +1,5 @@
-# Cowboy - Code like a cowboy
+# Code Like a Cowboy
+![Header image](./storage/cowboy-dalle-2-min.png)
 Simple NPM package to create code snippets in different languages
 
 > :warning: This package is in **very early development**! DO NOT USE
